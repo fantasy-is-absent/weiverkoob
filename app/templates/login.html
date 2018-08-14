@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block navbarContent %}
+	<a class="my-2 my-sm-0" style="color: white;" href={{url_for("singin")}}>Sing in</a>
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-4"></div>
+		
+		<div class="col-md-4">
+			<br>
+			<br>
+			<div class="card text-center">
+  				<div class="card-header">
+					<h1 class="card-title">log in</h1>
+				</div>
+				<div class="card-body">
+					<form>
+						<input class="form-control" type="text" name="name" placeholder="Your name">
+						<input class="form-control" type="password" name="password" placeholder="Your password">
+						<button class="form-control" type="submit">SUBMIT</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
