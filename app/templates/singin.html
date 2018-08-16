@@ -16,13 +16,34 @@
 					<h1 class="card-title">sing in</h1>
 				</div>
 				<div class="card-body">
-					<form>
-						<input class="form-control" type="text" name="name" placeholder="Your name">
-						<input class="form-control" type="password" name="password" placeholder="Your password">
+					<form method="post">
+						{{form.hidden_tag()}}
+						<input class="form-control" type="text" name="name" placeholder="Your name" required>
+						<input class="form-control" type="text" name="email" placeholder="Your email" required>
+						<input class="form-control" type="password" name="password" placeholder="Your password" required>
+    					{{form.remember_me}} Remember Me
 						<button class="form-control" type="submit">SUBMIT</button>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
+	        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+ 
+        {% for message in messages %}
+            {% if "Error" not in message[1]: %}
+                <div class="alert alert-info">
+                <strong>Success! </strong> {{ message[1] }}
+                </div>
+            {% endif %}
+ 
+            {% if "Error" in message[1]: %}
+                <div class="alert alert-warning">
+                {{ message[1] }}
+                </div>
+            {% endif %}
+        {% endfor %}
+            {% endif %}
+        {% endwith %}
 {% endblock %}
