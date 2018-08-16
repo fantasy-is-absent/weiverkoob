@@ -5,7 +5,7 @@ from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-from forms.loginForms import LoginForm
+from forms.enterForms import LoginForm, SinginForm
 
 DATABASE_URL = "postgres://kmkhjzcckmmadd:0ccdd910e2a2984001d63285cb5c2e60d1bcd5fdf0f6aa9147836066404f4aaf@ec2-54-217-235-16.eu-west-1.compute.amazonaws.com:5432/d63tuv25mgl2nv"
 # Check for environment variable
@@ -27,19 +27,27 @@ def index():
 
 @app.route("/login")
 def login():
-    return render_template("login.html")
-
-@app.route("/singin", methods=["POST", "GET"])
-def singin():
 	form = LoginForm(request.form)
 	if request.method == "POST":
 		name=request.form["name"]
 		password=request.form["password"]
-		email=request.form["email"]
-		print (name, " ", email, " ", password)
 		if form.validate():
 			# Save the comment here.
 			flash('Thanks for registration ' + name)
 		else:
 			flash('Error: All the form fields are required. ')
-	return render_template("singin.html", form=form, providers = app.config['OPENID_PROVIDERS'])										
+	return render_template("login.html", form=form)
+
+@app.route("/singin", methods=["POST", "GET"])
+def singin():
+	form = SinginForm(request.form)
+	if request.method == "POST":
+		name=request.form["name"]
+		password=request.form["password"]
+		email=request.form["email"]
+		if form.validate():
+			# Save the comment here.
+			flash('Thanks for registration ' + name)
+		else:
+			flash('Error: All the form fields are required. ')
+	return render_template("singin.html", form=form)
