@@ -2,5 +2,6 @@ SQLALCHEMY_DATABASE_URI = "postgres://oajlecdrqctkdc:1cfac06095f7c488e34a179da41
 SESSION_PERMANENT = False
 SESSION_TYPE = "filesystem"
 
+SQLALCHEMY_TRACK_MODIFICATIONS = True
 CSRF_ENABLED = True
 SECRET_KEY = 'you-will-never-guess'
