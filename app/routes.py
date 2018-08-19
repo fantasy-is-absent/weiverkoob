@@ -10,13 +10,14 @@ db.create_all()
 
 @lm.user_loader
 def load_user(user_id):
-	#return Users.query.filter_by(email=user_id).first()
 	return Users.query.get(user_id)
 
 
 @app.route("/")
 def index():
-	return render_template("index.html", user=current_user)
+	if current_user:
+		return render_template("index.html")
+	return redirect(url_for("login"))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -61,4 +62,4 @@ def logout():
 	user = current_user
 	user.autentical = False
 	logout_user()
-	return render_template("login.html", form=LoginForm())
+	return redirect(url_for("login"))
