@@ -14,13 +14,15 @@ def load_user(user_id):
 
 
 @app.route("/")
+@login_required
 def index():
-	if current_user:
-		return render_template("index.html")
-	return redirect(url_for("login"))
+	return render_template("index.html")
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+	if current_user.is_authenticated:
+		return redirect(url_for("index"))
 	form = LoginForm(request.form)
 	if request.method == "GET":
 		return render_template("login.html", form=form)
@@ -32,12 +34,14 @@ def login():
 			login_user(user, remember=True)
 			return redirect(url_for("index"))
 		else:
-			flash('Error: Wrong name or password!')
+			flash(f'Error: Wrong name or password!{form.password.data}')
 	return render_template("login.html", form=form)
 
 
 @app.route("/singin", methods=["POST", "GET"])
 def singin():
+	if current_user.is_authenticated:
+		return redirect(url_for("index"))
 	form = SinginForm(request.form)
 	if request.method == "POST":
 		name=request.form["name"]
@@ -45,10 +49,10 @@ def singin():
 		email=request.form["email"]
 		if form.validate():
 			user = Users(name, email, password)
-			print(user)
+			print(password, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11")
+			print(user.password)
 			db.session.add(user)
 			db.session.commit()
-			user.autentical = True
 			login_user(user, remember=True)
 			flash('Thanks for registration ' + name)
 			return redirect(url_for("index"))
