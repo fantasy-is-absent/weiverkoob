@@ -29,7 +29,6 @@ def login():
 	if form.validate_on_submit():
 		try:
 			user = Users.query.filter_by(name=f"{form.name.data}").first()
-			print (user)
 			if bcrypt.check_password_hash(user.password, form.password.data):
 				user.autentical = True
 				login_user(user, remember=True)
@@ -52,8 +51,6 @@ def singin():
 		email=request.form["email"]
 		if form.validate():
 			user = Users(name, email, bcrypt.generate_password_hash(password).decode("utf-8"))
-			print(password, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11")
-			print(user.password)
 			db.session.add(user)
 			db.session.commit()
 			login_user(user, remember=True)
