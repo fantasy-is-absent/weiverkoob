@@ -3,5 +3,5 @@ flask
 psycopg2
 flask-wtf
 flask-sqlalchemy
-flasf-login
+flask-login
 flask-bcrypt
