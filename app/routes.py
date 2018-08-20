@@ -2,7 +2,7 @@ import os
 from flask import session, render_template, request, flash, redirect, g, url_for
 from flask_login import login_user, logout_user, current_user, login_required
 
-from app import app, db, lm
+from app import app, db, lm, bcrypt
 from forms.enterForms import LoginForm, SinginForm
 from models import Users
 
@@ -27,14 +27,17 @@ def login():
 	if request.method == "GET":
 		return render_template("login.html", form=form)
 	if form.validate_on_submit():
-		user = Users.query.filter_by(name=f"{form.name.data}", 
-									password=f"{form.password.data}").first()
-		if user:
-			user.autentical = True
-			login_user(user, remember=True)
-			return redirect(url_for("index"))
-		else:
-			flash(f'Error: Wrong name or password!{form.password.data}')
+		try:
+			user = Users.query.filter_by(name=f"{form.name.data}").first()
+			print (user)
+			if bcrypt.check_password_hash(user.password, form.password.data):
+				user.autentical = True
+				login_user(user, remember=True)
+				return redirect(url_for("index"))
+			else:
+				flash("Error: Wrong password!")
+		except:
+			flash("Error: Wrong name!")
 	return render_template("login.html", form=form)
 
 
@@ -48,7 +51,7 @@ def singin():
 		password=request.form["password"]
 		email=request.form["email"]
 		if form.validate():
-			user = Users(name, email, password)
+			user = Users(name, email, bcrypt.generate_password_hash(password).decode("utf-8"))
 			print(password, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11")
 			print(user.password)
 			db.session.add(user)

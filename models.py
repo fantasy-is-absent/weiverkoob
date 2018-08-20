@@ -4,9 +4,9 @@ class Users(db.Model):
 
 	__tablename__ = 'users'
 	id = db.Column(db.Integer, primary_key = True)
-	name = db.Column(db.String(64), index = True, unique = True)
-	email = db.Column(db.String(120), index = True)
-	password = db.Column(db.String(30), index = True)
+	name = db.Column(db.String(35), index = True, unique = True)
+	email = db.Column(db.String(35), index = True)
+	password = db.Column(db.String(600), index = True)
 	authenticated = db.Column(db.Boolean, default=False)
 
 	def __repr__(self):
@@ -15,6 +15,8 @@ class Users(db.Model):
 	def __init__(self, name=None, email=None, password=None, authenticated=True):
 		self.name = name
 		self.email = email
+		self.password = password
+		self.authenticated = authenticated
 	
 	def is_active(self):
 		return True

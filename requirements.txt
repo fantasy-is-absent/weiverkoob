@@ -1,6 +1,7 @@
 gunicorn
-Flask
-Flask-Session
+flask
 psycopg2
-SQLAlchemy
 flask-wtf
+flask-sqlalchemy
+flasf-login
+flask-bcrypt
