@@ -2,7 +2,8 @@ from app import db
 
 class Users(db.Model):
 
-	__tablename__ = 'users'
+	__tablename__ = "users"
+	
 	id = db.Column(db.Integer, primary_key = True)
 	name = db.Column(db.String(35), index = True, unique = True)
 	email = db.Column(db.String(35), index = True)
@@ -26,3 +27,19 @@ class Users(db.Model):
 	
 	def is_authenticated(self):
 		return self.authenticated
+
+class Books(db.Model):
+	
+	__tablename__="books"
+	
+	id = db.Column(db.Integer, primary_key = True)
+	isbn = db.Column(db.String, index = True, unique = True)
+	title = db.Column(db.String, index = True)
+	author = db.Column(db.String, index = True)
+	year = db.Column(db.Integer, index = True)
+
+	def __init__(self, isbn, title, author, year):
+		self.isbn = isbn
+		self.title = title
+		self.author = author
+		self.year = year
