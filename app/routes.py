@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 
 from app import app, db, lm, bcrypt
 from forms.enterForms import LoginForm, SinginForm
-from models import Users
+from models import Users, Books
 
 db.create_all()
 
@@ -13,9 +13,16 @@ def load_user(user_id):
 	return Users.query.get(user_id)
 
 
-@app.route("/")
+@app.route("/", methods = ["GET", "POST"])
 @login_required
 def index():
+	if request.method == "GET":
+		return render_template("index.html")
+	search = request.form["search"]
+	books_search = Books.query.filter(Books.isbn.like(f"%{search}%")).all() + \
+					Books.query.filter(Books.title.like(f"%{search}%")).all() + \
+					Books.query.filter(Books.author.like(f"%{search}%")).all()
+	print (books_search)
 	return render_template("index.html")
 
 

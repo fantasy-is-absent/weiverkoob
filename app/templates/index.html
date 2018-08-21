@@ -1,12 +1,14 @@
 {% extends "layout.html" %}
 
+{% block navbarUl %}
+	<form class="form-inline my-1 my-lg-0" method="post">
+      <input class="form-control mr-sm-1" type="search" placeholder="isbn, title or author" name="search">
+      <button class="btn my-1 my-sm-0" type="submit">Search</button>
+    </form>
+{% endblock %}
+
 {% block navbarContent %}
-	{% if current_user.is_authenticated %}
-		<a class="my-2 my-sm-0" style="color: white;" href={{url_for("logout")}}>Log out</a>
-	{% else %}
-		<a class="my-2 my-sm-0" style="color: white;" href={{url_for("login")}}>Log in</a>
-		<a class="my-2 my-sm-0" style="color: white;" href={{url_for("singin")}}>Sing out</a>
-	{% endif %}
+	<a class="my-2 my-sm-0" style="color: white;" href={{url_for("logout")}}>Log out({{ current_user.name }})</a>
 {% endblock %}
 
 {% block content %}
@@ -27,5 +29,6 @@
 				{% endfor %}
 			{% endif %}
 		{% endwith %}
-  Hi {{ current_user.name }}!
-  {% endblock %}
+
+
+{% endblock %}

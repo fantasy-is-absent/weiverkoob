@@ -15,10 +15,11 @@
 			<a class="navbar-brand" href="#">WeIvErKoOb</a>
   			
   			<div class="collapse navbar-collapse" id="navbarContent">
-    		</div>
-    				{% block navbarContent %} {% endblock %}		
-    				
-  			
+  				<ul class="navbar-nav mr-auto">
+    				{% block navbarUl %} {% endblock %}
+    			</ul>
+			</div>
+			{% block navbarContent %} {% endblock %}		
 		</nav>
 		
 		{% block content %} {% endblock %}
