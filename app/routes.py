@@ -5,7 +5,7 @@ from sqlalchemy import or_
 
 from app import app, db, lm, bcrypt
 from forms.enterForms import LoginForm, SinginForm
-from models import Users, Books
+from models import Users, Books, Review
 
 db.create_all()
 
@@ -27,11 +27,14 @@ def index():
 	return render_template("index.html", books_search = books_search)
 
 
-@app.route("/<string:isnbBook>")
+@app.route("/<string:isnbBook>", methods = ["GET", "POST"])
 @login_required
 def viewBook(isnbBook):
 	book = Books.query.filter_by(isbn = isnbBook).first()
-	print (book, isnbBook)
+	if request.method == "POST":
+		review = Review(current_user.id, book.id, request.form["review"])
+		db.session.add(review)
+		db.session.commit()
 	return render_template("viewBook.html", book = book)
 
 @app.route("/login", methods = ["GET", "POST"])
