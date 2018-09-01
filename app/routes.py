@@ -22,7 +22,10 @@ def index():
 	books_search = Books.query.filter(or_(Books.isbn.like(f"%{search}%"), 
 									Books.title.like(f"%{search}%"), 
 									Books.author.like(f"%{search}%"))).limit(12).all()
+	if not books_search:
+		flash("Error: Nothing found!")
 	return render_template("index.html", books_search = books_search)
+
 
 @app.route("/<string:isnbBook>")
 @login_required
