@@ -12,13 +12,24 @@
 
 {% block content %}
 	<div class="row">
-		<div class="col-md-4"></div>
-		<div class="col-md-4">
+		<div class="col-md-3"></div>
+		<div class="col-md-3"> im</div>
+		<div class="col-md-3">
 			<Br>
 			<p>Title book: {{ book.title }}</p>
 			<p>Author: {{ book.author }}</p>
 			<p>Publication year: {{ book.year }}</p>
 			<p>ISBN number: {{ book.isbn }}</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4"></div>
+		<div class="col-md-4  text-right">
+			<form method="post">
+				<textarea class="form-control" rows="3" type="text" name="review" placeholder="Enter your review"> </textarea>
+				<Br>
+				<button type="button" class="btn btn-dark">SUBMIT</button>
+			</form>
 		</div>
 	</div>
 {% endblock %}
