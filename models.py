@@ -30,7 +30,7 @@ class Users(db.Model):
 
 class Books(db.Model):
 	
-	__tablename__="books"
+	__tablename__= "books"
 	
 	id = db.Column(db.Integer, primary_key = True)
 	isbn = db.Column(db.String, index = True, unique = True)
@@ -43,3 +43,17 @@ class Books(db.Model):
 		self.title = title
 		self.author = author
 		self.year = year
+
+class Review(db.Model):
+	
+	__tablename__= "reviews"
+
+	id = db.Column(db.Integer, primary_key = True)
+	user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+	book_id = db.Column(db.Integer, db.ForeignKey("books.id"))
+	text = db.Column(db.String)
+
+	def __init__(self, user_id, book_id, text):
+		self.user_id = user_id
+		self.book_id = book_id
+		self.reviews = reviews	
