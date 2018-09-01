@@ -24,6 +24,12 @@ def index():
 									Books.author.like(f"%{search}%"))).limit(12).all()
 	return render_template("index.html", books_search = books_search)
 
+@app.route("/<string:isnbBook>")
+@login_required
+def viewBook(isnbBook):
+	book = Books.query.filter_by(isbn = isnbBook).first()
+	print (book, isnbBook)
+	return render_template("viewBook.html", book = book)
 
 @app.route("/login", methods = ["GET", "POST"])
 def login():

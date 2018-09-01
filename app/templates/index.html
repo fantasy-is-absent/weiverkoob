@@ -34,7 +34,7 @@
 		<ul class="list-group">
 			{% for book in books_search %}
   				<li class="list-group-item">
-  					<a href="\{{book.title}}"  style="color: black;">{{book.title}}</a>
+  					<a href="/{{book.isbn}}"  style="color: black;">{{book.title}}</a>
   				</li>
 			{% endfor %}
 		</ul>
