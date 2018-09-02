@@ -52,8 +52,12 @@ class Review(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 	book_id = db.Column(db.Integer, db.ForeignKey("books.id"))
 	text = db.Column(db.String)
+	date = db.Column(db.DateTime)
+	rating = db.Column(db.Integer)
 
-	def __init__(self, user_id, book_id, text):
+	def __init__(self, user_id, book_id, text = None, date, rating):
 		self.user_id = user_id
 		self.book_id = book_id
-		self.text = text	
+		self.text = text
+		self.date = date
+		self.rating = rating	
