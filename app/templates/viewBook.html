@@ -20,7 +20,9 @@
 			<p>Author: {{ book.author }}</p>
 			<p>Publication year: {{ book.year }}</p>
 			<p>ISBN number: {{ book.isbn }}</p>
-			<p>AVG rating: {{ avgRating }}</p>
+			{% if avgRating %}}
+				<p>AVG rating: {{ avgRating }}</p>
+			{% endif %}
 		</div>
 	</div>
 	<div class="row">

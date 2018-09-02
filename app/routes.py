@@ -54,10 +54,13 @@ def viewBook(isnbBook):
 						.filter(Review.book_id == book.id)\
 						.filter(Review.user_id == Users.id)\
 						.all()
-	avgRating = round(db.session.query(func.avg(Review.rating))\
-						  .filter(Review.book_id == book.id)\
-						  .first()[0], 
-					  2)
+	try:
+		avgRating = round(db.session.query(func.avg(Review.rating))\
+						  	.filter(Review.book_id == book.id)\
+						  	.first()[0], 
+					  	2)
+	except:
+		avgRating = None
 	return render_template("viewBook.html", 
 							book = book,
 							reviews = reviews,
