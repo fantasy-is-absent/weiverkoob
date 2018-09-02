@@ -13,7 +13,7 @@ class Users(db.Model):
 	def __repr__(self):
 		return f"<User {self.name}>"
 
-	def __init__(self, name=None, email=None, password=None, authenticated=True):
+	def __init__(self, name, email, password, authenticated = True):
 		self.name = name
 		self.email = email
 		self.password = password
@@ -55,9 +55,9 @@ class Review(db.Model):
 	date = db.Column(db.DateTime)
 	rating = db.Column(db.Integer)
 
-	def __init__(self, user_id, book_id, text = None, date, rating):
+	def __init__(self, user_id, book_id, text, date, rating):
 		self.user_id = user_id
 		self.book_id = book_id
 		self.text = text
 		self.date = date
-		self.rating = rating	
+		self.rating = rating

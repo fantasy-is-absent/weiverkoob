@@ -36,10 +36,10 @@ def index():
 @login_required
 def viewBook(isnbBook):
 	book = Books.query.filter_by(isbn = isnbBook).first()
-	if request.method == "POST":
-		review = Review(current_user.id, book.id, request.form["review"])
-		db.session.add(review)
-		db.session.commit()
+	#if request.method == "POST":
+		#review = Review(current_user.id, book.id, request.form["review"])
+		#db.session.add(review)
+		#db.session.commit()
 	reviews = db.session.query(Review, Users)\
 						.filter(Review.book_id == book.id)\
 						.filter(Review.user_id == Users.id)\
