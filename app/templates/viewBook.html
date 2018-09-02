@@ -20,19 +20,22 @@
 			<p>Author: {{ book.author }}</p>
 			<p>Publication year: {{ book.year }}</p>
 			<p>ISBN number: {{ book.isbn }}</p>
+			<p>AVG rating: {{ avgRating }}</p>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-4"></div>
 		<div class="col-md-4  text-right">
+			<hr>
 			{% if reviews %}
 				<div>
 					{% for review in reviews %}
-					<hr>
 						<div class="text-left">{{ review.Review.text }}</div>
-						<div class="text-right">Review by: {{ review.Users.name }}</div>
-					{% endfor %}
+						<div>Review by: {{ review.Users.name }}</div>
+						<div>Rating: {{ review.Review.rating }}</div>
+						<div>Date: {{ review.Review.date }}</div>
 					<hr>
+					{% endfor %}
 				</div>
 			{% endif %}
 			<form method="post">

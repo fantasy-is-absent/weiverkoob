@@ -1,7 +1,7 @@
-import os
+import os, datetime
 from flask import session, render_template, request, flash, redirect, g, url_for, send_from_directory
 from flask_login import login_user, logout_user, current_user, login_required
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 
 from app import app, db, lm, bcrypt
 from forms.enterForms import LoginForm, SinginForm
@@ -36,17 +36,28 @@ def index():
 @login_required
 def viewBook(isnbBook):
 	book = Books.query.filter_by(isbn = isnbBook).first()
-	#if request.method == "POST":
-		#review = Review(current_user.id, book.id, request.form["review"])
-		#db.session.add(review)
-		#db.session.commit()
+	if request.method == "POST":
+		now = datetime.datetime.now()
+		print(now)
+		review = Review(current_user.id, 
+						book.id, 
+						request.form["review"],
+						now,
+						request.form["rating"])
+		db.session.add(review)
+		db.session.commit()
 	reviews = db.session.query(Review, Users)\
 						.filter(Review.book_id == book.id)\
 						.filter(Review.user_id == Users.id)\
 						.all()
+	avgRating = round(db.session.query(func.avg(Review.rating))\
+						  .filter(Review.book_id == book.id)\
+						  .first()[0], 
+					  2)
 	return render_template("viewBook.html", 
 							book = book,
-							reviews = reviews)
+							reviews = reviews,
+							avgRating = avgRating)
 
 @app.route("/login", methods = ["GET", "POST"])
 def login():
