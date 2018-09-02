@@ -37,15 +37,19 @@ def index():
 def viewBook(isnbBook):
 	book = Books.query.filter_by(isbn = isnbBook).first()
 	if request.method == "POST":
-		now = datetime.datetime.now()
-		print(now)
-		review = Review(current_user.id, 
-						book.id, 
-						request.form["review"],
-						now,
-						request.form["rating"])
-		db.session.add(review)
-		db.session.commit()
+		if Review.query.filter(Review.user_id == current_user.id)\
+					   .filter(Review.book_id == book.id)\
+					   .first():
+			flash("Error: You alredy add review!")
+		else:
+			now = datetime.datetime.now()
+			review = Review(current_user.id, 
+							book.id, 
+							request.form["review"],
+							now,
+							request.form["rating"])
+			db.session.add(review)
+			db.session.commit()
 	reviews = db.session.query(Review, Users)\
 						.filter(Review.book_id == book.id)\
 						.filter(Review.user_id == Users.id)\
