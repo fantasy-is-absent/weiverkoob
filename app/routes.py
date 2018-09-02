@@ -1,5 +1,5 @@
 import os
-from flask import session, render_template, request, flash, redirect, g, url_for
+from flask import session, render_template, request, flash, redirect, g, url_for, send_from_directory
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy import or_
 
@@ -8,6 +8,11 @@ from forms.enterForms import LoginForm, SinginForm
 from models import Users, Books, Review
 
 db.create_all()
+
+@app.route('/favicon.ico')
+def favicon():
+	return send_from_directory(os.path.join(app.root_path, 'static'),
+				'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @lm.user_loader
 def load_user(user_id):
@@ -35,7 +40,13 @@ def viewBook(isnbBook):
 		review = Review(current_user.id, book.id, request.form["review"])
 		db.session.add(review)
 		db.session.commit()
-	return render_template("viewBook.html", book = book)
+	reviews = db.session.query(Review, Users)\
+						.filter(Review.book_id == book.id)\
+						.filter(Review.user_id == Users.id)\
+						.all()
+	return render_template("viewBook.html", 
+							book = book,
+							reviews = reviews)
 
 @app.route("/login", methods = ["GET", "POST"])
 def login():
