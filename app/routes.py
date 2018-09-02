@@ -1,4 +1,4 @@
-import os, datetime
+import os, datetime, requests
 from flask import session, render_template, request, flash, redirect, g, url_for, send_from_directory
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy import or_, func
@@ -61,10 +61,17 @@ def viewBook(isnbBook):
 					  	2)
 	except:
 		avgRating = None
+	try:
+		res = requests.get("https://www.goodreads.com/book/review_counts.json", 
+							params={"key": "y1d6CXIG30BjNU21KimNng", "isbns": book.isbn})
+		avgRatingGoogreads = res.json()["books"][0]["average_rating"]
+	except:
+		avgRatingGoogreads = None
 	return render_template("viewBook.html", 
 							book = book,
 							reviews = reviews,
-							avgRating = avgRating)
+							avgRating = avgRating,
+							avgRatingGoogreads = avgRatingGoogreads)
 
 @app.route("/login", methods = ["GET", "POST"])
 def login():

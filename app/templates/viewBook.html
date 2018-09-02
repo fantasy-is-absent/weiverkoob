@@ -20,8 +20,11 @@
 			<p>Author: {{ book.author }}</p>
 			<p>Publication year: {{ book.year }}</p>
 			<p>ISBN number: {{ book.isbn }}</p>
-			{% if avgRating %}}
+			{% if avgRating %}
 				<p>AVG rating: {{ avgRating }}</p>
+			{% endif %}
+			{% if avgRatingGoogreads %}
+				<p>AVG rating from <a href="https://www.goodreads.com">Goodreads</a>: {{ avgRatingGoogreads }}</p>
 			{% endif %}
 		</div>
 	</div>
