@@ -37,8 +37,8 @@ def index():
 def viewBook(isnbBook):
 	book = Books.query.filter_by(isbn = isnbBook).first()
 	if request.method == "POST":
-		if Review.query.filter(Review.user_id == current_user.id)\
-					   .filter(Review.book_id == book.id)\
+		if Review.query.filter_by(user_id = current_user.id)\
+					   .filter_by(book_id = book.id)\
 					   .first():
 			flash("Error: You alredy add review!")
 		else:
@@ -51,12 +51,12 @@ def viewBook(isnbBook):
 			db.session.add(review)
 			db.session.commit()
 	reviews = db.session.query(Review, Users)\
-						.filter(Review.book_id == book.id)\
-						.filter(Review.user_id == Users.id)\
+						.filter_by(book_id = book.id)\
+						.filter_by(user_id = Users.id)\
 						.all()
 	try:
 		avgRating = round(db.session.query(func.avg(Review.rating))\
-						  	.filter(Review.book_id == book.id)\
+						  	.filter_by(book_id = book.id)\
 						  	.first()[0], 
 					  	2)
 	except:
