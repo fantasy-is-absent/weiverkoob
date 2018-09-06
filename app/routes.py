@@ -1,4 +1,4 @@
-import os, datetime, requests
+import os, datetime, requests, json
 from flask import session, render_template, request, flash, redirect, g, url_for, send_from_directory
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy import or_, func
@@ -122,4 +122,19 @@ def logout():
 	logout_user()
 	return redirect(url_for("login"))
 
-	
+
+@app.route("/api/<string:isbn>")
+def apiAccess(isbn):
+	book = Books.query.filter_by(isbn = isbn).first()
+	if book:
+		reviewCount = db.session.query(func.count(Review.text)).filter_by(book_id = book.id).first()[0]
+		avgRating = db.session.query(func.avg(Review.rating)).filter_by(book_id = book.id).first()[0]
+		forJSON = {
+			"title": book.title,
+			"author": book.author,
+			"year": book.year,
+			"isbn": book.isbn,
+			"review_count": reviewCount,
+			"average_score": avgRating}
+		return json.dumps(forJSON)
+	return "error: not found book"
