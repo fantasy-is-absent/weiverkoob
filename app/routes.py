@@ -121,3 +121,5 @@ def logout():
 	user.autentical = False
 	logout_user()
 	return redirect(url_for("login"))
+
+	
