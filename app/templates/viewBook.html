@@ -40,7 +40,7 @@
 						<div class="text-left">{{ review.Review.text }}</div>
 						<div>Review by: {{ review.Users.name }}</div>
 						<div>Rating: {{ review.Review.rating }}</div>
-						<div>Date: {{ review.Review.date }}</div>
+						<div>Date: {{ review.Review.date.year }}-{{ review.Review.date.month }}-{{ review.Review.date.day }} {{ review.Review.date.hour }}:{{ review.Review.date.minute }}</div>
 					<hr>
 					{% endfor %}
 				</div>
