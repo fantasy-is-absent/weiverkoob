@@ -104,14 +104,17 @@ def singin():
 		password = request.form["password"]
 		email = request.form["email"]
 		if form.validate():
-			user = Users(name, email, bcrypt.generate_password_hash(password).decode("utf-8"))
-			db.session.add(user)
-			db.session.commit()
-			login_user(user, remember = True)
-			flash('Thanks for registration ' + name)
-			return redirect(url_for("index"))
+			try:
+				user = Users(name, email, bcrypt.generate_password_hash(password).decode("utf-8"))
+				db.session.add(user)
+				db.session.commit()
+				login_user(user, remember = True)
+				flash("Thanks for registration " + name)
+				return redirect(url_for("index"))
+			except:
+				flash("Error: this name alredy used")
 		else:
-			flash('Error: All the form fields are required. ')
+			flash("Error: All the form fields are required. ")
 	return render_template("singin.html", form = form)
 
 @app.route("/logout", methods = ["GET"])
